@@ -80,13 +80,33 @@ func checkTodo(action string){
 
 	err = ioutil.WriteFile("data/todo.json", dataBytes, 0644)
 	if err != nil {
-        fmt.Println("eroor")
+        fmt.Println("error")
     }
 }
 
+func deleteTodo(action string){
+	data := jSONToTab("data/todo.json")
+
+
+	for i:= 0; i < len(data); i++{
+		if(action == data[i].Todo){
+			data= append(data[:i], data[i+1:len(data)]...)
+
+		}
+	}
+	
+	dataBytes, err := json.MarshalIndent(data, "", "    ")
+	err = ioutil.WriteFile("data/todo.json", dataBytes, 0644)
+	if err != nil {
+        fmt.Println("error")
+    }
+
+}
 
 func main()  {
-	//checkTodo("test 2")
-	addTodo("test 2")
-	listTodo()
+	//checkTodo("test 3")
+
+	//addTodo("test 3")
+	//listTodo()
+	//deleteTodo("test 3")
 }
