@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"strings"
+
+	"github.com/abiosoft/ishell"
 )
 
 	
@@ -103,10 +106,49 @@ func deleteTodo(action string){
 
 }
 
-func main()  {
-	//checkTodo("test 3")
 
-	//addTodo("test 3")
-	//listTodo()
-	//deleteTodo("test 3")
+
+func main()  {
+	shell := ishell.New()
+	shell.Println("Sample Interactive Shell")
+
+
+	//? ajouter a la todo list
+
+	shell.AddCmd(&ishell.Cmd{
+        Name: "add",
+        Help: "add <action to add>",
+        Func: func(c *ishell.Context) {
+			addTodo(strings.Join(c.Args, " "))
+        },
+	})
+
+	//? lister la todo list
+	shell.AddCmd(&ishell.Cmd{
+        Name: "list",
+        Help: "just list todo list",
+        Func: func(c *ishell.Context) {
+			listTodo()
+        },
+	})
+
+	shell.AddCmd(&ishell.Cmd{
+        Name: "check",
+        Help: "check <action to check>",
+        Func: func(c *ishell.Context) {
+			checkTodo(strings.Join(c.Args, " "))
+        },
+	})
+
+	shell.AddCmd(&ishell.Cmd{
+        Name: "sup",
+        Help: "sup <action to sup>",
+        Func: func(c *ishell.Context) {
+			deleteTodo(strings.Join(c.Args, " "))
+        },
+	})
+
+
+	shell.Run()
+
 }
